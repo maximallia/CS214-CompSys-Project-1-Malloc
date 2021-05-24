@@ -1,0 +1,24 @@
+The following description is our two custom workloads D and E.
+
+testD: D is very similar to test C, but instead of mymallocing 1 byte, we can malloc a random
+number that is between 1 to 100. So it is randomly implementing mymalloc and myfree, at the
+same time randomly mymallocing a number. For myfree, we would be free the oldest pointer.
+
+testE: E is very different from testD and testC. E is not randomly implementing mymalloc and
+myfree and there is no randomized byte malloc. Instead we start with mymalloc and start from
+byte 1. We will stay in the mymalloc implementation loop while added 23 bytes the previous byte
+until the limitation (which in this case is 4096) is reached or will exceed the next loop.
+Then we will switch to myfree. Starting from the oldest pointer, myfree will continue to free
+pointers in each loop, until the pointers been freed would go below 0 memory. In this case, we
+will revert back to mymalloc, and repeat the entire process.
+
+Note:
+In the beginning, we planned to modify test D, into randomized myfree and mymalloc and
+randomized memory for both mymalooc and myfree. By using functions searchArr and removeIdx to
+identify the pointer, we can locate the pointer with the same randomized memory and free it.
+Thus,with the same randomized memory byte, from there we will delete the oldest pointer with the
+identical memory and will free it. Unfortunately, though searchArr worked perfectly, removeIdx
+causes segmentation error and disrupts the memory allocation. Thus the code was printting out
+negative memory. Due to the time, we abandoned the old plan to create testE with searchArr and
+removeIdx, resulting in our creating the testE we have now.
+If we have more time, our original testE would be very interesting to make.
